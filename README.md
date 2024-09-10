@@ -1,2 +1,1 @@
-LOREM IPSUM
-
+# Mini_Shell

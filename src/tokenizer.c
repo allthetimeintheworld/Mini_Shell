@@ -6,7 +6,7 @@
 /*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:58:52 by j                 #+#    #+#             */
-/*   Updated: 2024/09/05 17:39:51 by j                ###   ########.fr       */
+/*   Updated: 2024/09/13 16:05:50 by j                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ char	**tokenize(char *input)
 	{
 		if (input[i] == '"')
 			in_quotes = !in_quotes;
-		else if (isspace(input[i] && !in_quotes))
+		else if (ft_isspace(input[i] && !in_quotes))
 		{
 			if (j > 0)
 			{
 				token[j] = '\0';
-				token[token_index++] = ft_strdup(token);
+				tokens[token_index++] = ft_strdup(token);
 				j = 0;
 			}
 		}
@@ -52,12 +52,12 @@ char	**tokenize(char *input)
 			if (j > 0)
 			{
 				token[j] = '\0';
-				token[token_index++] = ft_strdup(token);
+				tokens[token_index++] = ft_strdup(token);
 				j = 0;
 			}
 			token[j++] = input[i];
 			token[j] = '\0';
-			token[token_index++] = ft_strdup(token);
+			tokens[token_index++] = ft_strdup(token);
 			j = 0;
 		}
 		else
@@ -67,7 +67,7 @@ char	**tokenize(char *input)
 	if (j > 0)
 	{
 		token[j] = '\0';
-		token[token_index++] = ft_strdup(token);
+		tokens[token_index++] = ft_strdup(token);
 	}
 	tokens[token_index] = NULL;
 	free(token);

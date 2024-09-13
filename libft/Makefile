@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+         #
+#    By: j <j@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 15:11:35 by jadyar            #+#    #+#              #
-#    Updated: 2024/02/21 16:11:10 by jadyar           ###   ########.fr        #
+#    Updated: 2024/09/13 16:24:20 by j                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC = \
 	ft_isalpha.c \
 	ft_isalnum.c \
 	ft_isdigit.c \
+	ft_isspace.c \
 	ft_isascii.c \
 	ft_isprint.c \
 	ft_tolower.c \

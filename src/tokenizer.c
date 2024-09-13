@@ -6,7 +6,7 @@
 /*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:58:52 by j                 #+#    #+#             */
-/*   Updated: 2024/09/13 16:05:50 by j                ###   ########.fr       */
+/*   Updated: 2024/09/13 16:23:22 by j                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**tokenize(char *input)
 	{
 		if (input[i] == '"')
 			in_quotes = !in_quotes;
-		else if (ft_isspace(input[i] && !in_quotes))
+		else if (ft_isspace(input[i]) && !in_quotes)
 		{
 			if (j > 0)
 			{

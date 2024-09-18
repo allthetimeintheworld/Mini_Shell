@@ -6,7 +6,7 @@
 /*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:56:11 by j                 #+#    #+#             */
-/*   Updated: 2024/09/16 14:11:08 by j                ###   ########.fr       */
+/*   Updated: 2024/09/18 16:03:41 by j                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+# include <fcntl.h>
 
 # define TOKEN_SIZE 1024
 # define TOKEN_DELIM " \t\r\n\a"
@@ -34,5 +35,8 @@ void	setup_signals(void);
 void	sigint_handler(int sig);
 int		is_operator(char c);
 char	**tokenize(char *input);
-
+void	exec_cmd(char **args);
+void	execute_pipe(char **left_cmd, char **right_cmd);
+void	free_tokens(char **tokens);
+int		count_args(char **args);
 #endif

@@ -6,7 +6,7 @@
 /*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:52:14 by jadyar            #+#    #+#             */
-/*   Updated: 2024/09/13 16:14:11 by j                ###   ########.fr       */
+/*   Updated: 2024/09/18 15:58:50 by j                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strdup(const char *s);
 char				*ft_itoa(int n);
+int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strnstr(const char *big, const char *little,

@@ -6,7 +6,7 @@
 #    By: j <j@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/01 15:11:35 by jadyar            #+#    #+#              #
-#    Updated: 2024/09/13 16:24:20 by j                ###   ########.fr        #
+#    Updated: 2024/09/18 16:15:46 by j                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC = \
 	ft_strncmp.c \
 	ft_strlcpy.c \
 	ft_strlcat.c \
+	ft_strcmp.c \
 	ft_atoi.c \
 	ft_strchr.c \
 	ft_strrchr.c \

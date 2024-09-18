@@ -6,11 +6,13 @@
 /*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:02:57 by j                 #+#    #+#             */
-/*   Updated: 2024/09/16 14:20:54 by j                ###   ########.fr       */
+/*   Updated: 2024/09/18 16:18:41 by j                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/mini_shell.h"
+#include "../include/builtins.h"
+#include "../libft/libft.h"
 
 int is_builtin(char *cmd)
 {
@@ -28,14 +30,14 @@ void	execute_builtin(char **args)
 		ft_pwd();
 	else if (!ft_strcmp(args[0], "echo"))
 		ft_echo(args);
-	else if (!ft_strcmp(args[0], "exit"))
+/* 	else if (!ft_strcmp(args[0], "exit"))
 		ft_exit(args);
 	else if (!ft_strcmp(args[0], "env"))
 		ft_env();
 	else if (!ft_strcmp(args[0], "export"))
 		ft_export(args);
 	else if (!ft_strcmp(args[0], "unset"))
-		ft_unset(args);
+		ft_unset(args); */
 }
 void	execute_cmd(char **args)
 {

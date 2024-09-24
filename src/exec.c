@@ -3,39 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:03:48 by j                 #+#    #+#             */
-/*   Updated: 2024/09/18 16:17:26 by j                ###   ########.fr       */
+/*   Updated: 2024/09/24 14:26:49 by jadyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/mini_shell.h"
 
-void	exec_external(char **args)
+void	exec_external(char **args, char **envp)
 {
-	pid_t	pid;
-	int		status;
-	
-	pid = fork();
-	if (pid == 0)
+	char	*full_path;
+
+	full_path = find_command_in_path(args[0]);
+	if (full_path)
 	{
-		if (execve(args[0], args, NULL) == -1)
-		{
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
+		execve(full_path, args, envp);
+		perror("execve");
+		exit(EXIT_FAILURE);
 	}
-	else if (pid < 0)
-		perror("fork");
 	else
-		waitpid(pid, &status, 0);
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(args[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
 }
-void	execute_pipe(char **left_cmd, char **right_cmd)
+
+void	execute_pipe(char **left_cmd, char **right_cmd, char **envp)
 {
-	int pipefd[2];
-	pid_t pid1;
-	pid_t pid2;
+	int		pipefd[2];
+	pid_t	pid1;
+	pid_t	pid2;
 
 	if (pipe(pipefd) == -1)
 	{
@@ -46,44 +47,44 @@ void	execute_pipe(char **left_cmd, char **right_cmd)
 	if (pid1 == 0)
 	{
 		dup2(pipefd[1], STDOUT_FILENO);// redirect stdout to pipe
-		close(pipefd[0]);//close read end
-		close(pipefd[1]);//close write end
-		execve(left_cmd[0], left_cmd, NULL);// execute left command	
-	//	exec_external(left_cmd);
-		perror("execve");
+		close(pipefd[0]);
+		close(pipefd[1]);
+		execve(left_cmd[0], left_cmd, envp);
+		perror("execve (left cmd)");
 		exit(EXIT_FAILURE);
 	}
 	else if (pid1 < 0)
 	{
-		perror("fork");
+		perror("fork (left cmd)");
 		exit(EXIT_FAILURE);
 	}
 	pid2 = fork();
 	if (pid2 == 0)
 	{
-		dup2(pipefd[0], STDIN_FILENO);// redirect stdin to pipe
-		close(pipefd[0]);//close read end
-		close(pipefd[1]);//close write end
-		execve(right_cmd[0], right_cmd, NULL);// execute right command
-		perror("execve");
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		execve(right_cmd[0], right_cmd, envp);
+		perror("execve (right cmd)");
 		exit(EXIT_FAILURE);
 	}
 	else if (pid2 < 0)
 	{
-		perror("fork");
+		perror("fork (right cmd)");
 		exit(EXIT_FAILURE);
 	}
-	close(pipefd[0]);//close write end
-	close(pipefd[1]);//close write end
+	close(pipefd[0]);
+	close(pipefd[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 }
-void	exec_cmd(char **args)
+
+void	exec_cmd(char **args, char **envp)
 {
-	int i;
-	int j;
-	char **left_cmd;
-	char **right_cmd;
+	int		i;
+	int		j;
+	char	**left_cmd;
+	char	**right_cmd;
 
 	i = 0;
 	j = 0;
@@ -98,7 +99,7 @@ void	exec_cmd(char **args)
 		j++;
 	}
 	left_cmd[j] = NULL;
-	if (args[i])
+	if (args[i] && ft_strcmp(args[i], "|") == 0)
 	{
 		i++;
 		right_cmd = malloc(sizeof(char *) * (count_args(args) - i + 1));
@@ -112,8 +113,40 @@ void	exec_cmd(char **args)
 			j++;
 		}
 		right_cmd[j] = NULL;
-		execute_pipe(left_cmd, right_cmd);
+		execute_pipe(left_cmd, right_cmd, envp);
+		free_tokens(right_cmd);
 	}
 	else
-		exec_external(left_cmd);
+		exec_external(left_cmd, envp);
+	free_tokens(left_cmd);
+}
+
+char	*find_command_in_path(char *command)
+{
+	char	*path_env;
+	char	*path_env_cpy;
+	char	*dir;
+	char	*full_path;
+
+	path_env = getenv("PATH");
+	path_env_cpy = ft_strdup(path_env);
+	dir = strtok(path_env_cpy, ":");
+	full_path = malloc(ft_strlen(dir) + ft_strlen(command) + 2);
+	if (!full_path)
+		exit(EXIT_FAILURE);
+	while (dir)
+	{
+		ft_strcpy(full_path, dir);
+		ft_strcat(full_path, "/");
+		ft_strcat(full_path, command);
+		if (access(full_path, X_OK) == 0)
+		{
+			free(path_env_cpy);
+			return (full_path);
+		}
+		free(full_path);
+		dir = ft_strtok(NULL, ":");
+	}
+	free(path_env_cpy);
+	return (NULL);
 }

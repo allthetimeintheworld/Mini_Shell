@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:02:57 by j                 #+#    #+#             */
-/*   Updated: 2024/09/18 16:18:41 by j                ###   ########.fr       */
+/*   Updated: 2024/09/24 14:31:24 by jadyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../include/builtins.h"
 #include "../libft/libft.h"
 
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd")
 		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export")
@@ -39,6 +39,7 @@ void	execute_builtin(char **args)
 	else if (!ft_strcmp(args[0], "unset"))
 		ft_unset(args); */
 }
+
 void	execute_cmd(char **args)
 {
 	if (args[0] == NULL)
@@ -46,7 +47,7 @@ void	execute_cmd(char **args)
 	if (is_builtin(args[0]))
 		execute_builtin(args);
 	else
-		exec_external(args);
+		exec_external(args, NULL);
 }
 
 void	ft_cd(char **args)
@@ -70,22 +71,12 @@ void	ft_cd(char **args)
 
 void	ft_pwd(void)
 {
-	char *cwd;
+	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
 	printf("%s\n", cwd);
 	free(cwd);
 }
-
-/*void	ft_cwd(void)
-{
-	char *cwd;
-	
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	else
-		perror("getcwd() error");
-}*/
 
 void	ft_echo(char **args)
 {

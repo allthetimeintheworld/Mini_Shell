@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:05:30 by j                 #+#    #+#             */
-/*   Updated: 2024/09/18 15:54:51 by j                ###   ########.fr       */
+/*   Updated: 2024/09/24 14:23:01 by jadyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../include/mini_shell.h"
+#include "../include/mini_shell.h"
 
-int main(void)
+int	main(int ac, char **av, char **envp)
 {
-	char *input;
-	char **tokens;
-	
+	char	*input;
+	char	**tokens;
+
+	(void)ac;
+	(void)av;
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -25,11 +27,10 @@ int main(void)
 		if (input[0] != '\0')
 		{
 			add_history(input);
-		//printf("Your input was %s\n", input);
 			tokens = tokenize(input);
 			if (tokens)
 			{
-				exec_cmd(tokens);
+				exec_cmd(tokens, envp);
 				free(tokens);
 			}
 		}

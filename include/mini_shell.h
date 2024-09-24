@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: j <j@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:56:11 by j                 #+#    #+#             */
-/*   Updated: 2024/09/18 16:03:41 by j                ###   ########.fr       */
+/*   Updated: 2024/09/24 14:20:00 by jadyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@
 # define TOKEN_SIZE 1024
 # define TOKEN_DELIM " \t\r\n\a"
 
-void	exec_external(char **args);
+int		main(int ac, char **av, char **envp);
+void	exec_external(char **args, char **envp);
+char	*find_command_in_path(char *command);
 void	setup_signals(void);
 void	sigint_handler(int sig);
 int		is_operator(char c);
 char	**tokenize(char *input);
-void	exec_cmd(char **args);
-void	execute_pipe(char **left_cmd, char **right_cmd);
+void	exec_cmd(char **args, char **envp);
+void	execute_pipe(char **left_cmd, char **right_cmd, char **envp);
 void	free_tokens(char **tokens);
 int		count_args(char **args);
 #endif

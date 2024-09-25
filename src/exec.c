@@ -6,7 +6,7 @@
 /*   By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:03:48 by j                 #+#    #+#             */
-/*   Updated: 2024/09/24 14:26:49 by jadyar           ###   ########.fr       */
+/*   Updated: 2024/09/25 11:32:09 by jadyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,34 +119,4 @@ void	exec_cmd(char **args, char **envp)
 	else
 		exec_external(left_cmd, envp);
 	free_tokens(left_cmd);
-}
-
-char	*find_command_in_path(char *command)
-{
-	char	*path_env;
-	char	*path_env_cpy;
-	char	*dir;
-	char	*full_path;
-
-	path_env = getenv("PATH");
-	path_env_cpy = ft_strdup(path_env);
-	dir = strtok(path_env_cpy, ":");
-	full_path = malloc(ft_strlen(dir) + ft_strlen(command) + 2);
-	if (!full_path)
-		exit(EXIT_FAILURE);
-	while (dir)
-	{
-		ft_strcpy(full_path, dir);
-		ft_strcat(full_path, "/");
-		ft_strcat(full_path, command);
-		if (access(full_path, X_OK) == 0)
-		{
-			free(path_env_cpy);
-			return (full_path);
-		}
-		free(full_path);
-		dir = ft_strtok(NULL, ":");
-	}
-	free(path_env_cpy);
-	return (NULL);
 }

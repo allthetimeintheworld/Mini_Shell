@@ -6,7 +6,7 @@
 /*   By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:58:39 by jadyar            #+#    #+#             */
-/*   Updated: 2024/09/25 12:45:19 by jadyar           ###   ########.fr       */
+/*   Updated: 2024/09/26 16:37:59 by jadyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*find_command_in_path(char	*cmd)
 	path_env_cpy = ft_strdup(path_env);
 	if (!(path_env_cpy))
 		return (NULL);
-	dir = strtok(path_env_cpy, ":");
+	dir = ft_strtok(path_env_cpy, ":");
 	while (dir)
 	{
 		full_path = join_path_cmd(dir, cmd);
@@ -55,7 +55,7 @@ char	*find_command_in_path(char	*cmd)
 			return (full_path);
 		}
 		free(full_path);
-		dir = strtok(NULL, ":");
+		dir = ft_strtok(NULL, ":");
 	}
 	free(path_env_cpy);
 	return (NULL);

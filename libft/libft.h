@@ -6,7 +6,7 @@
 /*   By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:52:14 by jadyar            #+#    #+#             */
-/*   Updated: 2024/09/24 13:58:55 by jadyar           ###   ########.fr       */
+/*   Updated: 2024/09/25 16:11:14 by jadyar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 int					ft_isspace(char c);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
+char				*ft_strjoin_args(char **av, int ac);
 char				**ft_split(char const *s, char c);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);

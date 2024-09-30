@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_find_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jadyar <jadyar@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dodordev <dodordev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:58:39 by jadyar            #+#    #+#             */
-/*   Updated: 2024/09/26 16:37:59 by jadyar           ###   ########.fr       */
+/*   Updated: 2024/09/30 13:57:52 by dodordev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/mini_shell.h"
 
-char	*join_path_cmd(char *dir, char *cmd)
+/*char	*join_path_cmd(char *dir, char *cmd)
 {
 	char	*full_path;
 	int		path_len;
@@ -25,9 +25,73 @@ char	*join_path_cmd(char *dir, char *cmd)
 	ft_strcat(full_path, "/");
 	ft_strcat(full_path, cmd);
 	return (full_path);
+}*/
+
+// Function to get a copy of the PATH environment variable
+static char	*get_path_env(void)
+{
+	char	*path_env;
+
+	path_env = getenv("PATH");
+	if (!path_env)
+		return (NULL);
+	return (ft_strdup(path_env));
 }
 
-char	*find_command_in_path(char	*cmd)
+// Function to join the directory path and command
+// Assume ft_strjoin_free frees the first string
+static char	*join_path_cmd(char *dir, char *cmd)
+{
+	char	*full_path;
+
+	full_path = ft_strjoin(dir, "/");
+	if (!full_path)
+		return (NULL);
+	full_path = ft_strjoin_free(full_path, cmd);
+	return (full_path);
+}
+
+// Function to check if the command exists in the current directory
+static char	*check_directory(char *dir, char *cmd)
+{
+	char	*full_path;
+
+	full_path = join_path_cmd(dir, cmd);
+	if (!full_path)
+		return (NULL);
+	if (access(full_path, F_OK) == 0)
+		return (full_path);
+	free(full_path);
+	return (NULL);
+}
+
+// Main function to find the command in the PATH
+char	*find_command_in_path(char *cmd)
+{
+	char	*path_env_cpy;
+	char	*dir;
+	char	*full_path;
+
+	path_env_cpy = get_path_env();
+	if (!path_env_cpy)
+		return (NULL);
+	dir = ft_strtok(path_env_cpy, ":");
+	while (dir)
+	{
+		full_path = check_directory(dir, cmd);
+		if (full_path)
+		{
+			free(path_env_cpy);
+			return (full_path);
+		}
+		dir = ft_strtok(NULL, ":");
+	}
+	free(path_env_cpy);
+	return (NULL);
+}
+
+
+/*char	*find_command_in_path(char	*cmd)
 {
 	char	*path_env;
 	char	*path_env_cpy;
@@ -59,4 +123,4 @@ char	*find_command_in_path(char	*cmd)
 	}
 	free(path_env_cpy);
 	return (NULL);
-}
+}*/

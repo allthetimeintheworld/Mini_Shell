@@ -6,7 +6,7 @@
 /*   By: dodordev <dodordev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 09:58:39 by jadyar            #+#    #+#             */
-/*   Updated: 2024/09/30 13:57:52 by dodordev         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:16:53 by dodordev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,18 @@ static char	*get_path_env(void)
 }
 
 // Function to join the directory path and command
-// Assume ft_strjoin_free frees the first string
 static char	*join_path_cmd(char *dir, char *cmd)
 {
 	char	*full_path;
+	char	*temp;
 
-	full_path = ft_strjoin(dir, "/");
+	temp = ft_strjoin(dir, "/");
+	if (!temp)
+		return (NULL);
+	full_path = ft_strjoin(temp, cmd);
+	free(temp);
 	if (!full_path)
 		return (NULL);
-	full_path = ft_strjoin_free(full_path, cmd);
 	return (full_path);
 }
 
